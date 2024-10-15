@@ -19,6 +19,9 @@ const csvData = csvParse(
     width: +d["Width (cm)"],
     weight: +d["Weight(kg)"],
     aspectRatio: +d["Width (cm)"] / +d["Height (cm)"],
+    area: +(d["Width (cm)"] * +d["Height (cm)"]).toFixed(3),
+    type: d["Classification"],
+    link: d["ImageURL"],
   })
 ).filter((d) => d.width && d.height)
 
