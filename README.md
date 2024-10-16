@@ -10,6 +10,8 @@ The main visualizations are rendered using `Observable plot`. The image card com
 
 **`src/data`** - This project contains two data loaders, one for the artwork and one for the artists table. Both are written in Node.js using `d3.csv` to parse raw csv files from Github and save them as csv files with selected variables, and new computed variables such as area and aspect ratio. 
 
+**`src/components/charts`** - Contains Observable `Plot` functions to render the visualizations, separating the data visualization logic from the narrative markdown in `index.md`.
+
 ## Data visualization design
 
 The design of the dashboard moves from high-level metrics to more granular details. It follows a well-established dashboard design principle of showing several views of the same data, keeping the narrative focused on a small subset of variables. 
