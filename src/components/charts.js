@@ -2,6 +2,7 @@ import * as Plot from "npm:@observablehq/plot"
 import * as d3 from "npm:d3"
 
 const COLOR = "#03DAC5"
+const FILL_OPACITY = 0.7
 
 const selectedMedium = "Drawing"
 
@@ -72,7 +73,7 @@ export function scatterplot(data, { width } = {}, selectedMedium) {
         y: (d) => heightIn(d),
         r: "works",
         fill: COLOR,
-        fillOpacity: (d) => (selectedMedium === d.type ? 0.5 : 0.2),
+        fillOpacity: (d) => (selectedMedium === d.type ? FILL_OPACITY : 0.3),
         stroke: COLOR,
         strokeOpacity: (d) => (selectedMedium === d.type ? 1 : 0.5),
       }),
@@ -144,11 +145,33 @@ export function mekko(data, { width } = {}, size) {
           insetBottom: 0.5,
           insetTop: 0.5,
           fill: COLOR,
-          fillOpacity: 0.5,
+          fillOpacity: FILL_OPACITY,
           tip: true,
           channels: { title: "title", artist: "artist" },
         })
       ),
+    ],
+  })
+}
+
+export function artistChart(data, { width } = {}) {
+  console.log(data)
+  return Plot.plot({
+    title: "Top 10 artists",
+    subtitle: "By works produced in this category",
+    width,
+    marginLeft: 120,
+    height: 400,
+    x: { label: "Works in MoMa" },
+    y: { label: "Artist" },
+    marks: [
+      Plot.barX(data, {
+        y: "artist",
+        x: "count",
+        sort: { y: "-x" },
+        fill: COLOR,
+        fillOpacity: FILL_OPACITY,
+      }),
     ],
   })
 }

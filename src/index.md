@@ -7,14 +7,15 @@ sql:
   artworks: ./data/dimensions.csv
 ---
 
+
 <!-- Plot components -->
 ```js
-import {artSizeChart, mekko, scatterplot} from './components/charts.js'
+import {artSizeChart, mekko, scatterplot, artistChart} from './components/charts.js'
 ```
 <!-- Dashboard -->
 # Sizing up the MoMa Collection
 
-## choose a category to explore the dimensions of the artwork
+## To start, choose a section of the museum to explore
 
 ```sql id=allData
 SELECT count(*) as count from artworks
@@ -80,6 +81,14 @@ Most works at MoMa are small and square, but the collection boasts a few extraor
 
 Now let's look specifically at this category, ${selectedMedium}. The plots below show each piece of art sized by its length and height. 
 
+ <div class="card">
+    ${resize((width) => artSizeChart(selectedData, {width}, selectedMedium))}
+ </div>
+
+Zooming in even further, let's look at the 10 largest and smallest works, and the 10 artists with the most works in ${selectedMedium}. The works at these extremes often have unusual dimensions.
+
+Famous artists often appear at the top of the list — like Picasso for painting, and Chagall for Illustrated Book.
+
 ```js
 const sizeInput = Inputs.radio(["smallest", "largest"], {label: "size by", value: "largest"});
 const size = Generators.input(sizeInput);
@@ -87,7 +96,7 @@ const size = Generators.input(sizeInput);
 
 <div class="grid grid-cols-2">
   <div class="card">
-  <h2>Top 10 ${size} by area in ${selectedMedium}</h2>
+  <h2>Top 10 ${size} works by area in ${selectedMedium}</h2>
   <div style="margin: 8px 0;">
   ${sizeInput}
   </div>
@@ -95,9 +104,16 @@ const size = Generators.input(sizeInput);
   </div>
 
   <div class="card">
-    ${resize((width) => artSizeChart(selectedData, {width}, selectedMedium))}
+    ${resize((width) => artistChart(topArtists, {width}))}
   </div>
 </div>
+
+```js
+const artists = await FileAttachment('./data/artists.csv').csv({typed: true})
+const topArtists = artists.filter(d => d.type === selectedMedium)
+```
+
+
 
 
 As a reward for getting this far, let's look at some actual art. Here are the biggest and smallest works in ${selectedMedium} that have an image link recorded in the data. If the work does not have a valid image link, it won't be shown.
