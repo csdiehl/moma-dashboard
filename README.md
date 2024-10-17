@@ -8,7 +8,11 @@ This project takes advantage of several exciting features of Framework, includin
 
 The main visualizations are rendered using `Observable plot`. The image card component is a React component, rendered using Observable Framework's JSX functionality. 
 
-**`src/data`** - This project contains two data loaders, one for the artwork and one for the artists table. Both are written in Node.js using `d3.csv` to parse raw csv files from Github and save them as csv files with selected variables, and new computed variables such as area and aspect ratio. 
+**`src/data`** - This project contains two data loaders, one for the artwork dimensions and one for the artists table. Both are written in Node.js using `d3.csv` to parse raw csv files from Github and save them as csv files with selected variables, and new computed variables such as area and aspect ratio. 
+
+The output of the dimensions loader is used to create the DuckDB table. 
+
+The output of the artists loader is a dataset with the top 10 artists in each category, by how many works they produced. This is used for the bar chart visualization.
 
 **`src/components/charts`** - Contains Observable `Plot` functions to render the visualizations, separating the data visualization logic from the narrative markdown in `index.md`.
 
